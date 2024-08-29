@@ -1,23 +1,21 @@
-import fetch from 'node-fetch';
+import 'isomorphic-fetch';
 
 interface LogOptions {
   title: string;
   description: string;
   fields?: { name: string; value: string; inline?: boolean }[];
-  color?: number; // Decimal color code
+  color?: number;
 }
 
 class DiscordLogger {
   private webhookUrl: string;
   private footerText: string;
-  private defaultColor: number;
   private isProduction: boolean;
 
-  constructor(webhookUrl: string, footerText: string, isProduction: boolean, defaultColor: number = 3447003) {
+  constructor(webhookUrl: string, footerText: string, isProduction: boolean) {
     this.webhookUrl = webhookUrl;
     this.footerText = footerText;
     this.isProduction = isProduction;
-    this.defaultColor = defaultColor;
   }
 
   private getEnvironmentPrefix(): string {
@@ -25,8 +23,7 @@ class DiscordLogger {
   }
 
   private getFormattedTimestamp(): string {
-    const now = new Date();
-    return now.toLocaleString('id-ID', {
+    return new Date().toLocaleString('id-ID', {
       timeZone: 'Asia/Jakarta',
       year: 'numeric',
       month: '2-digit',
@@ -47,7 +44,7 @@ class DiscordLogger {
     const embed = {
       title: `${this.getEnvironmentPrefix()} ${options.title}`,
       description: options.description,
-      color: options.color || this.defaultColor,
+      color: options.color,
       fields: options.fields || [],
       timestamp: new Date().toISOString(),
       footer: {
