@@ -21,7 +21,6 @@
     "typescript": "^4.5.0"
   },
   "dependencies": {
-    "isaui-discord-logger": "file:",
     "isomorphic-fetch": "^3.0.0"
   }
 }
